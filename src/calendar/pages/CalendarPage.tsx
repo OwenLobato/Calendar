@@ -1,10 +1,10 @@
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { addHours } from 'date-fns';
-import { Navbar } from '../';
+import { CalendarEvent, Navbar } from '../';
 import { localizer, getMessagesEs } from '../../helpers';
 
-export interface CalendarEvent {
+export interface CalendarEventItem {
   title: string;
   notes?: string;
   start: Date;
@@ -16,7 +16,7 @@ export interface CalendarEvent {
   };
 }
 
-const events: CalendarEvent[] = [
+const events: CalendarEventItem[] = [
   {
     title: 'Cumpleaños del Jefe',
     notes: 'Comprar pastel',
@@ -32,12 +32,11 @@ const events: CalendarEvent[] = [
 
 export const CalendarPage = () => {
   const eventStyleGetter = (
-    event: CalendarEvent,
+    event: CalendarEventItem,
     start: Date,
     end: Date,
     isSelected: boolean,
   ) => {
-    console.log({ event, start, end, isSelected });
 
     const style = {
       backgroundColor: '#347CF7',
@@ -53,7 +52,7 @@ export const CalendarPage = () => {
     <>
       <Navbar />
 
-      <Calendar<CalendarEvent>
+      <Calendar<CalendarEventItem>
         culture='es'
         localizer={localizer}
         events={events}
@@ -62,6 +61,7 @@ export const CalendarPage = () => {
         style={{ height: 'calc(100vh - 80px)' }}
         messages={getMessagesEs()}
         eventPropGetter={eventStyleGetter}
+        components={{ event: CalendarEvent }}
       />
     </>
   );

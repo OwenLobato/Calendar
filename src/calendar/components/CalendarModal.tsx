@@ -1,13 +1,13 @@
 import { type ChangeEvent, useState } from 'react';
 import { addHours } from 'date-fns';
-import Modal from 'react-modal';
+import Modal, { type Styles } from 'react-modal';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { es } from 'date-fns/locale/es';
 import 'react-datepicker/dist/react-datepicker.css';
 
 registerLocale('es', es);
 
-const customStyles = {
+const customStyles: Styles = {
   content: {
     top: '50%',
     left: '50%',
@@ -38,21 +38,25 @@ export const CalendarModal = () => {
 
   const onInputChange = ({
     target,
-  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setFormValues({
       ...formValues,
       [target.name]: target.value,
     });
   };
 
-  const onDateChanged = (date: Date | null, changing: 'start' | 'end') => {
+  const onDateChanged = (
+    date: Date | null,
+    changing: 'start' | 'end',
+  ): void => {
+    if (!date) return;
     setFormValues({
       ...formValues,
       [changing]: date,
     });
   };
 
-  const onCloseModal = () => {
+  const onCloseModal = (): void => {
     setIsOpen(false);
   };
 
@@ -114,7 +118,6 @@ export const CalendarModal = () => {
 
         <div className='form-group mb-2'>
           <textarea
-            type='text'
             className='form-control'
             placeholder='Notas'
             rows={5}

@@ -1,21 +1,10 @@
 import { useState } from 'react';
-import { Calendar, type View } from 'react-big-calendar';
+import { Calendar, type EventPropGetter, type View } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { addHours } from 'date-fns';
 import { CalendarEvent, CalendarModal, Navbar } from '../';
 import { localizer, getMessagesEs } from '../../helpers';
-
-export interface CalendarEventItem {
-  title: string;
-  notes?: string;
-  start: Date;
-  end: Date;
-  bgColor?: string;
-  user: {
-    _id: string;
-    name: string;
-  };
-}
+import { type CalendarEventItem } from '../interfaces';
 
 const events: CalendarEventItem[] = [
   {
@@ -31,30 +20,26 @@ const events: CalendarEventItem[] = [
   },
 ];
 
-const onDoubleClick = (event: CalendarEventItem) => {
+const onDoubleClick = (event: CalendarEventItem): void => {
   console.log({ doubleClick: event });
 };
 
-const onSelect = (event: CalendarEventItem) => {
+const onSelect = (event: CalendarEventItem): void => {
   console.log({ click: event });
-};
-const onViewChanged = (view: View) => {
-  localStorage.setItem('lastView', view);
 };
 
 export const CalendarPage = () => {
   const [lastView, setLastView] = useState<View>(
-    (localStorage.getItem('lastView') as View) || 'week',
+    (localStorage.getItem('lastView') as View) ?? 'week',
   );
 
-  const eventStyleGetter = (
-    event: CalendarEventItem,
-    start: Date,
-    end: Date,
-    isSelected: boolean,
+  const eventStyleGetter: EventPropGetter<CalendarEventItem> = (
+    _event,
+    _start,
+    _end,
+    _isSelected,
   ) => {
-
-    const style = {
+    const style: React.CSSProperties = {
       backgroundColor: '#347CF7',
       borderRadius: '0px',
       opacity: 0.8,
@@ -62,6 +47,11 @@ export const CalendarPage = () => {
     };
 
     return { style };
+  };
+
+  const onViewChanged = (view: View): void => {
+    setLastView(view);
+    localStorage.setItem('lastView', view);
   };
 
   return (

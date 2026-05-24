@@ -1,4 +1,6 @@
-export const getMessagesEs = () => {
+import { type Messages } from 'react-big-calendar';
+
+export const getMessagesEs = (): Messages => {
   return {
     allDay: 'Todo el día',
     previous: '<',

@@ -1,4 +1,4 @@
-import { type CalendarEventItem } from '../pages/CalendarPage';
+import { type CalendarEventItem } from '../interfaces';
 
 interface Props {
   event: CalendarEventItem;

@@ -4,7 +4,7 @@ export interface CalendarEventUser {
 }
 
 export interface CalendarEventItem {
-  id?: string;
+  _id?: string;
   title: string;
   notes?: string;
   start: Date;

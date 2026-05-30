@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Calendar, type EventPropGetter, type View } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { CalendarEvent, CalendarModal, Navbar } from '../';
+import {
+  CalendarEvent,
+  CalendarModal,
+  FabAddNew,
+  FabDelete,
+  Navbar,
+} from '../';
 import { localizer, getMessagesEs } from '../../helpers';
 import { type CalendarEventItem } from '../interfaces';
 import { useUiStore, useCalendarStore } from '../../hooks';
@@ -19,7 +25,7 @@ export const CalendarPage = () => {
     _end,
     _isSelected,
   ) => {
-    const style: React.CSSProperties = {
+    const style: CSSProperties = {
       backgroundColor: '#347CF7',
       borderRadius: '0px',
       opacity: 0.8,
@@ -29,7 +35,7 @@ export const CalendarPage = () => {
     return { style };
   };
 
-  const onDoubleClick = (event: CalendarEventItem): void => {
+  const onDoubleClick = (_event: CalendarEventItem): void => {
     openDateModal();
   };
 
@@ -61,7 +67,11 @@ export const CalendarPage = () => {
         onSelectEvent={onSelect}
         onView={onViewChanged}
       />
+
       <CalendarModal />
+
+      <FabAddNew />
+      <FabDelete />
     </>
   );
 };

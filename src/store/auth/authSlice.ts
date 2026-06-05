@@ -1,19 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+
+export interface AuthUser {
+  uid?: string;
+  name?: string;
+  email?: string;
+}
+
+export type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
+
+interface AuthState {
+  status: AuthStatus;
+  user: AuthUser;
+  errorMessage: string | undefined;
+}
+
+const initialState: AuthState = {
+  status: 'checking',
+  user: {},
+  errorMessage: undefined,
+};
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    status: 'checking', // 'authenticated' | 'not-authenticated'
-    user: {},
-    errorMessage: undefined,
-  },
+  initialState,
   reducers: {
     onChecking: (state) => {
       state.status = 'checking';
       state.user = {};
       state.errorMessage = undefined;
     },
-    onLogin: (state, { payload }) => {
+    onLogin: (state, { payload }: PayloadAction<AuthUser>) => {
       state.status = 'authenticated';
       state.user = payload;
       state.errorMessage = undefined;

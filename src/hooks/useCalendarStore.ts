@@ -5,11 +5,14 @@ import {
   onSetActiveEvent,
   onUpdateEvent,
 } from '../store';
+import type { RootState } from '../store';
 import { type CalendarEventItem } from '../calendar/interfaces';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
-  const { events, activeEvent } = useSelector((state) => state.calendar);
+  const { events, activeEvent } = useSelector(
+    (state: RootState) => state.calendar,
+  );
 
   const setActiveEvent = (calendarEvent: CalendarEventItem): void => {
     dispatch(onSetActiveEvent(calendarEvent));

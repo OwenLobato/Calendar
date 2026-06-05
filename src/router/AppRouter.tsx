@@ -1,21 +1,23 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from '../auth';
 import { CalendarPage } from '../calendar';
-
-type AuthStatus = 'authenticated' | 'not-authenticated';
-
-/**
- * TODO: Replace with a real store/context selector when auth is implemented.
- * Returns the current authentication status of the user.
- */
-const getAuthStatus = (): AuthStatus => 'not-authenticated';
+import { useAuthStore } from '../hooks';
+import { useEffect } from 'react';
 
 export const AppRouter = () => {
-  const authStatus = getAuthStatus();
+  const { status, checkAuthToken } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
+
+  if (status === 'checking') {
+    return <h1>Cargando...</h1>;
+  }
 
   return (
     <Routes>
-      {authStatus === 'not-authenticated' ? (
+      {status === 'not-authenticated' ? (
         <Route path='/auth/*' element={<LoginPage />} />
       ) : (
         <Route path='/*' element={<CalendarPage />} />

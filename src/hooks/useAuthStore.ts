@@ -98,6 +98,11 @@ export const useAuthStore = () => {
     }
   };
 
+  const startLogout = async (): Promise<void> => {
+    localStorage.clear();
+    dispatch(onLogout());
+  };
+
   const checkAuthToken = async (): Promise<void> => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -125,6 +130,7 @@ export const useAuthStore = () => {
     errorMessage,
     startLogin,
     startRegister,
+    startLogout,
     checkAuthToken,
   };
 };

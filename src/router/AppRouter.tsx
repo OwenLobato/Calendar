@@ -8,7 +8,7 @@ type AuthStatus = 'authenticated' | 'not-authenticated';
  * TODO: Replace with a real store/context selector when auth is implemented.
  * Returns the current authentication status of the user.
  */
-const getAuthStatus = (): AuthStatus => 'authenticated';
+const getAuthStatus = (): AuthStatus => 'not-authenticated';
 
 export const AppRouter = () => {
   const authStatus = getAuthStatus();

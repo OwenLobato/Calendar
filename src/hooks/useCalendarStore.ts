@@ -9,8 +9,10 @@ import type { RootState } from '../store';
 import {
   type CalendarEventItem,
   type CalendarEventApiResponse,
+  type CalendarEventsApiResponse,
 } from '../calendar/interfaces';
 import { calendarApi } from '../api';
+import { convertEventsToDate } from '../helpers';
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -49,6 +51,18 @@ export const useCalendarStore = () => {
     dispatch(onDeleteEvent());
   };
 
+  const startLoadingEvent = async () => {
+    try {
+      const { data } =
+        await calendarApi.get<CalendarEventsApiResponse>('/events');
+
+      const events = convertEventsToDate(data.events);
+      console.log(`🚀 ~ startLoadingEvent ~ events:`, events);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   return {
     events,
     activeEvent,
@@ -56,5 +70,6 @@ export const useCalendarStore = () => {
     startDeletingEvent,
     setActiveEvent,
     startSavingEvent,
+    startLoadingEvent,
   };
 };

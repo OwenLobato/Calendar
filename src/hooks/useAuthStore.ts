@@ -4,6 +4,7 @@ import {
   onChecking,
   onLogin,
   onLogout,
+  onLogutCalendar,
   clearErrorMsg,
   type RootState,
 } from '../store';
@@ -82,6 +83,7 @@ export const useAuthStore = () => {
 
   const startLogout = async (): Promise<void> => {
     localStorage.clear();
+    dispatch(onLogutCalendar());
     dispatch(onLogout());
   };
 

@@ -7,30 +7,12 @@ import {
   clearErrorMsg,
   type RootState,
 } from '../store';
-import { calendarApi } from '../api';
-
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-interface RegisterCredentials {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface AuthResponse {
-  ok: boolean;
-  uid: string;
-  name: string;
-  token: string;
-}
-
-interface ApiError {
-  ok: boolean;
-  msg: string;
-}
+import { calendarApi, type ApiError } from '../api';
+import {
+  type LoginCredentials,
+  type RegisterCredentials,
+  type AuthApiResponse,
+} from '../auth/interfaces';
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector(
@@ -45,7 +27,7 @@ export const useAuthStore = () => {
     dispatch(onChecking());
 
     try {
-      const { data } = await calendarApi.post<AuthResponse>('/auth', {
+      const { data } = await calendarApi.post<AuthApiResponse>('/auth', {
         email,
         password,
       });
@@ -75,7 +57,7 @@ export const useAuthStore = () => {
     dispatch(onChecking());
 
     try {
-      const { data } = await calendarApi.post<AuthResponse>('/auth/new', {
+      const { data } = await calendarApi.post<AuthApiResponse>('/auth/new', {
         name,
         email,
         password,
@@ -111,7 +93,8 @@ export const useAuthStore = () => {
     }
 
     try {
-      const { data } = await calendarApi.get<AuthResponse>('/auth/revalidate');
+      const { data } =
+        await calendarApi.get<AuthApiResponse>('/auth/revalidate');
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime().toString());
 

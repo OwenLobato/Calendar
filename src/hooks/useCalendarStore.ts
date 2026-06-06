@@ -6,7 +6,10 @@ import {
   onUpdateEvent,
 } from '../store';
 import type { RootState } from '../store';
-import { type CalendarEventItem } from '../calendar/interfaces';
+import {
+  type CalendarEventItem,
+  type CalendarEventApiResponse,
+} from '../calendar/interfaces';
 import { calendarApi } from '../api';
 
 export const useCalendarStore = () => {
@@ -28,8 +31,17 @@ export const useCalendarStore = () => {
       dispatch(onUpdateEvent({ ...calendarEvent }));
     } else {
       // Create
-      const { data } = await calendarApi.post('/events', calendarEvent);
-      dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.id, user }));
+      const { data } = await calendarApi.post<CalendarEventApiResponse>(
+        '/events',
+        calendarEvent,
+      );
+      dispatch(
+        onAddNewEvent({
+          ...calendarEvent,
+          id: data.event.id,
+          user: { uid: user.uid!, name: user.name! },
+        }),
+      );
     }
   };
 

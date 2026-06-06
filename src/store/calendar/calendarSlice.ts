@@ -8,14 +8,14 @@ interface CalendarState {
 }
 
 const tempEvent: CalendarEventItem = {
-  _id: String(new Date().getTime()),
+  id: String(new Date().getTime()),
   title: 'Cumpleaños del Jefe',
   notes: 'Comprar pastel',
   start: new Date(),
   end: addHours(new Date(), 2),
   bgColor: '#fafafa',
   user: {
-    _id: '123',
+    uid: '123',
     name: 'Owen',
   },
 };
@@ -41,13 +41,13 @@ export const calendarSlice = createSlice({
     },
     onUpdateEvent: (state, { payload }: PayloadAction<CalendarEventItem>) => {
       state.events = state.events.map((event) =>
-        event._id === payload._id ? payload : event,
+        event.id === payload.id ? payload : event,
       );
     },
     onDeleteEvent: (state) => {
       if (state.activeEvent) {
         state.events = state.events.filter(
-          (event) => event._id !== state.activeEvent?._id,
+          (event) => event.id !== state.activeEvent?.id,
         );
         state.activeEvent = null;
       }

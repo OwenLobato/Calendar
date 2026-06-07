@@ -55,7 +55,8 @@ export const useCalendarStore = () => {
       );
     } catch (error) {
       console.log({ error });
-      Swal.fire('Error al guardar', error.response.data?.msg, 'error');
+      const msg = (error as { response?: { data?: { msg?: string } } }).response?.data?.msg;
+      Swal.fire('Error al guardar', msg, 'error');
     }
   };
 
@@ -67,7 +68,8 @@ export const useCalendarStore = () => {
       dispatch(onDeleteEvent());
     } catch (error) {
       console.log({ error });
-      Swal.fire('Error al eliminar', error.response.data?.msg, 'error');
+      const msg = (error as { response?: { data?: { msg?: string } } }).response?.data?.msg;
+      Swal.fire('Error al eliminar', msg, 'error');
     }
   };
 
